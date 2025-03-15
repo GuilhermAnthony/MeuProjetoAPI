@@ -14,11 +14,12 @@ export default function Home() {
     const [personagens, setPersonagens] = useState<Personagem[]>([])
     const [carregar, setCarregar] = useState(true)
 
-    useEffect(() =>{
+    useEffect(() => {
         async function carregarPersonagem() {
             const dados = await fetchCharacters();
             setPersonagens(dados.characters);
         }
+        carregarPersonagem();
     }, [])
 
     return (
@@ -26,13 +27,13 @@ export default function Home() {
             <Text>Página de detalhes</Text>
             <FlatList
                 data={personagens}
-                keyExtractor={item=>{item.id.toString()}}
-                renderItem={({item}) => {
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({item}) => (
                     <View style={style.card}>
-                        <Image source={{uri: item.images [0]}}/>
+                        <Image source={{uri:item.images[0]}} style={style.image}/>
                         <Text style={style.name}>{item.name}</Text>
                     </View>
-                }}
+                )}
             />
         </View>
     )
