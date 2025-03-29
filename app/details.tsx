@@ -1,7 +1,7 @@
 import fetchCharacters from "@/services/api";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { FlatList, StyleSheet, Image, Text, View } from "react-native";
+import { FlatList, StyleSheet, Image, Text, View, TouchableOpacity } from "react-native";
 
 interface Personagem {
     id: number;
@@ -13,6 +13,10 @@ export default function Home() {
     const router = useRouter();
     const [personagens, setPersonagens] = useState<Personagem[]>([])
     const [carregar, setCarregar] = useState(true)
+
+    const handlePress = (id: number) => {
+        router.push(`/personagens`);
+    };
 
     useEffect(() => {
         async function carregarPersonagem() {
@@ -30,7 +34,9 @@ export default function Home() {
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({item}) => (
                     <View style={style.card}>
+                        <TouchableOpacity onPress={() => handlePress(item.id)}>
                         <Image source={{uri:item.images[0]}} style={style.image}/>
+                        </TouchableOpacity>
                         <Text style={style.name}>{item.name}</Text>
                     </View>
                 )}
